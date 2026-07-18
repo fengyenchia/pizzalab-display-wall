@@ -8,7 +8,7 @@ export const mockSessionDetails: SessionDetail[] = [
     id: "20260718_203048_Control",
     playedAt: "2026-07-18T20:30:48+08:00",
     card: {
-      image: "/images/UI_Polaroid.png",
+      image: "/images/bg.png",
       hashtags: ["#SauceTornado", "#BigEffort"],
       persona: "Sauce Tornado",
     },
@@ -39,7 +39,7 @@ export const mockSessionDetails: SessionDetail[] = [
     id: "20260718_201522_Experiment",
     playedAt: "2026-07-18T20:15:22+08:00",
     card: {
-      image: "/images/UI_Polaroid.png",
+      image: "/images/bg.png",
       hashtags: ["#FastHands", "#PizzaChaos"],
       persona: "Kitchen Cyclone",
     },
@@ -75,7 +75,7 @@ export const mockSessionDetails: SessionDetail[] = [
     id: "20260718_194102_Experiment",
     playedAt: "2026-07-18T19:41:02+08:00",
     card: {
-      image: "/images/UI_Polaroid.png",
+      image: "/images/bg.png",
       hashtags: ["#CustomerMagnet", "#BigEnergy"],
       persona: "Party Starter",
     },
@@ -100,7 +100,7 @@ export const mockSessionDetails: SessionDetail[] = [
     id: "20260718_192315_Experiment",
     playedAt: "2026-07-18T19:23:15+08:00",
     card: {
-      image: "/images/UI_Polaroid.png",
+      image: "/images/bg.png",
       hashtags: [],
       persona: "Focused Baker",
     },
@@ -119,7 +119,7 @@ export const mockSessionDetails: SessionDetail[] = [
     id: "20260718_190844_Control",
     playedAt: "2026-07-18T19:08:44+08:00",
     card: {
-      image: "/images/UI_Polaroid.png",
+      image: "/images/bg.png",
       hashtags: ["#SauceArtist", "#FullSend"],
       persona: "Sauce Artist",
     },
