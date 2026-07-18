@@ -10,20 +10,23 @@ type CardProps = {
 
 export function Card({ id, imageSrc, title, hashtags }: CardProps) {
   return (
-    <Link className="group block text-white" href={`/s/${id}`}>
-      <article>
-        <div className="transition-transform duration-500 group-hover:scale-[0.98]">
+    <Link
+      className="group block w-full min-w-0 max-w-sm justify-self-center text-white"
+      href={`/s/${id}`}
+    >
+      <article className="flex h-full min-w-0 flex-col">
+        <div className="transition-transform duration-600 group-hover:scale-[0.98]">
           <Polaroid
             imageSrc={imageSrc}
             alt={`${title} 拍立得`}
             hashtags={hashtags}
           />
         </div>
-        {title ? (
-          <h2 className="pt-4 text-center text-xl leading-tight text-secondary">
+        {/* {title ? (
+          <h2 className="flex items-start justify-center px-2 text-center text-lg leading-snug text-secondary wrap-anywhere md:text-xl">
             {title}
           </h2>
-        ) : null}
+        ) : null} */}
       </article>
     </Link>
   );

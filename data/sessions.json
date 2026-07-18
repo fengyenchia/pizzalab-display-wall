@@ -1,0 +1,26 @@
+{
+  "sessions": [
+    {
+      "id": "demo-002",
+      "playedAt": "2026-07-19T20:40:00+08:00",
+      "card": {
+        "image": null,
+        "hashtags": ["#神之右手"],
+        "persona": "冷靜精準的披薩狙擊手"
+      },
+      "bossComment": "幾乎場場命中，主廚我想退休把店交給你。",
+      "photos": []
+    },
+    {
+      "id": "demo-001",
+      "playedAt": "2026-07-19T20:30:00+08:00",
+      "card": {
+        "image": null,
+        "hashtags": ["#手滑大師"],
+        "persona": "混亂善良的外送刺客"
+      },
+      "bossComment": "醬料噴得比披薩還準，建議下次先擦手。",
+      "photos": []
+    }
+  ]
+}

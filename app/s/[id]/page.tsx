@@ -6,17 +6,14 @@ import FadeIn from "@/components/fadeIn";
 import { Polaroid } from "@/components/Polaroid";
 import { ResultImageDownload } from "@/components/ResultImageDownload";
 import { getImageUrl, getSession } from "@/lib/api/sessions";
-import { mockSessionDetails } from "@/lib/mock/sessions";
+
+export const dynamic = "force-dynamic";
 
 type SessionPageProps = {
   params: Promise<{
     id: string;
   }>;
 };
-
-export function generateStaticParams() {
-  return mockSessionDetails.map((session) => ({ id: session.id }));
-}
 
 export async function generateMetadata({
   params,
@@ -56,7 +53,7 @@ export default async function SessionPage({ params }: SessionPageProps) {
 
         <FadeIn>
           <header className="md:pt-12 text-center">
-            <div className="mx-auto flex w-full flex-col items-center gap-4 md:flex-row md:gap-12">
+            <div className="mx-auto flex w-full flex-col items-center gap-4 md:flex-row md:gap-20">
               <div className="w-full max-w-100 transition-transform duration-600 hover:scale-[0.98]">
                 <Polaroid
                   imageSrc={cardImage}
@@ -65,15 +62,15 @@ export default async function SessionPage({ params }: SessionPageProps) {
                   priority
                 />
               </div>
-              <div className="flex flex-col text-start md:gap-12">
-                <h1 className="w-full text-center text-lg bg-foreground p-4 rounded-sm leading-tight md:text-start md:text-5xl">
+              <div className="flex flex-col text-start md:gap-20">
+                <h1 className="w-full text-center text-lg leading-tight md:text-start md:text-5xl">
                   {session.card.persona}
                 </h1>
                 <ul className="flex gap-4 text-start md:flex-col">
                   {session.card.hashtags.map((hashtag) => (
                     <li
                       key={hashtag}
-                      className="rounded-sm py-2 text-xs text-white/70 md:text-lg"
+                      className="py-2 text-xs text-white/70 md:text-xl"
                     >
                       {hashtag}
                     </li>
@@ -118,12 +115,12 @@ export default async function SessionPage({ params }: SessionPageProps) {
         {session.bossComment ? (
           <FadeIn>
             <h2 className="text-2xl md:text-3xl">老闆紙條</h2>
-            <div className="relative mx-auto aspect-video w-full overflow-hidden bg-primary transition-all duration-600 hover:scale-105">
+            <div className="relative mx-auto aspect-video w-full overflow-hidden bg-primary transition-all duration-600 hover:scale-98">
               <Image
                 src="/images/UI_bossreview.png"
                 alt="老闆紙條"
                 fill
-                className="object-contain transition-all duration-600 hover:scale-105"
+                className="object-contain"
                 sizes="(min-width: 768px) 768px, 100vw"
               />
               <div className="absolute inset-0 flex items-center justify-center p-[12%] text-center">

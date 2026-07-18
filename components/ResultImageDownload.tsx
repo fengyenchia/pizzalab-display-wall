@@ -328,7 +328,7 @@ export function ResultImageDownload({
         type="button"
         onClick={handleDownload}
         disabled={status === "working"}
-        className="mt-4 inline-flex min-h-12 items-center justify-center rounded-sm border border-secondary bg-secondary px-8 text-sm tracking-[0.16em] text-white transition-opacity disabled:opacity-60"
+        className="mt-4 inline-flex min-h-12 items-center justify-center rounded-sm border border-secondary bg-secondary px-8 text-sm tracking-[0.16em] text-white transition-all duration-600 disabled:opacity-60 cursor-pointer hover:scale-102"
       >
         {status === "working"
           ? "產生中..."

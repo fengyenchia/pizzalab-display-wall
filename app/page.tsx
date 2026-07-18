@@ -2,6 +2,8 @@ import { CardGrid } from "@/components/CardGrid";
 import FadeIn from "@/components/fadeIn";
 import { getAllSessions, getImageUrl } from "@/lib/api/sessions";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const sessions = await getAllSessions();
 
@@ -14,7 +16,7 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-primary text-foreground">
-      <section id="sessions" className="px-4 py-8 md:px-12 md:py-12">
+      <section id="sessions" className="px-5 py-8 sm:px-8 md:px-12 md:py-12">
         <div className="mx-auto max-w-7xl">
           {cards.length > 0 ? (
             <FadeIn>
