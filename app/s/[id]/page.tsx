@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import FadeIn from "@/components/fadeIn";
+import { Polaroid } from "@/components/Polaroid";
 import { getImageUrl, getSession } from "@/lib/api/sessions";
 import { mockSessionDetails } from "@/lib/mock/sessions";
 
@@ -53,20 +54,14 @@ export default async function SessionPage({ params }: SessionPageProps) {
 
           <header className="pt-12 text-center">
             <div className="mx-auto flex w-full flex-col items-center gap-4 md:flex-row md:gap-12">
-              {cardImage ? (
-                <Image
-                  src={cardImage}
+              <div className="w-full max-w-100 transition-transform duration-600 hover:scale-[0.98]">
+                <Polaroid
+                  imageSrc={cardImage}
                   alt={session.card.persona}
-                  width={400}
-                  height={400}
-                  className="object-cover object-center transition-transform duration-600 hover:scale-[0.98]"
-                  sizes="(min-width: 768px) 33vw, 100vw"
+                  hashtags={session.card.hashtags}
+                  priority
                 />
-              ) : (
-                <div className="flex aspect-square w-full max-w-100 items-center justify-center border border-white/20 text-xs text-white/40">
-                  IMAGE UNAVAILABLE
-                </div>
-              )}
+              </div>
               <div className="flex flex-col text-start md:gap-12">
                 <h1 className="w-full text-center text-lg leading-tight md:text-start md:text-5xl">
                   {session.card.persona}
