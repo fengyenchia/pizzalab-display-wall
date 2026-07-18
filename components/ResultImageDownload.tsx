@@ -14,10 +14,18 @@ const CAPTION_AREA = { top: 0.72, left: 0.09, right: 0.09, bottom: 0.06 };
 const BOSS_NOTE_SRC = "/images/UI_bossreview.png";
 const BOSS_NOTE_ASPECT = 897 / 2174; // height / width
 
+// Same brand mark as components/Navbar.tsx: pizza-slice icons flanking
+// "PIZZALAB" set in the site's pixel title font.
+const LEFT_ICON_SRC = "/images/left_icon.svg";
+const RIGHT_ICON_SRC = "/images/right_icon.svg";
+const ICON_ASPECT = 42 / 54; // height / width
+const TITLE_FONT = '"Cubic 11", sans-serif';
+
 const CANVAS_WIDTH = 1200;
 const PADDING = 60;
 const CONTENT_WIDTH = CANVAS_WIDTH - PADDING * 2;
 const SECTION_GAP = 56;
+const TITLE_HEIGHT = 64;
 const PAGE_BACKGROUND = "#2b2b2b"; // matches --primary in app/globals.css
 const ACCENT = "#ff4f4f"; // matches --secondary
 
@@ -96,6 +104,11 @@ function drawPolaroid(
   const slotW = width - SLOT.left * width - SLOT.right * width;
   const slotH = height - SLOT.top * height - SLOT.bottom * height;
 
+  // Same mistake as the live DOM Polaroid the first time around: the frame's
+  // slot art is opaque, not a transparent hole, so it MUST be drawn first -
+  // drawing it after the photo just paints over it and the photo vanishes.
+  ctx.drawImage(frame, x, y, width, height);
+
   if (photo) {
     const scale = Math.max(slotW / photo.naturalWidth, slotH / photo.naturalHeight);
     const drawW = photo.naturalWidth * scale;
@@ -122,8 +135,6 @@ function drawPolaroid(
     ctx.textBaseline = "middle";
     ctx.fillText("NO PHOTO", slotX + slotW / 2, slotY + slotH / 2);
   }
-
-  ctx.drawImage(frame, x, y, width, height);
 
   if (caption) {
     const areaX = x + CAPTION_AREA.left * width;
@@ -158,14 +169,22 @@ export function ResultImageDownload({
   async function handleDownload() {
     setStatus("working");
     try {
-      const [frame, mainPhoto, bossNote, highlightPhotos] = await Promise.all([
-        loadImage(FRAME_SRC), // the frame itself is a local static asset - a
-        // real failure here means something is fundamentally broken, so it's
-        // allowed to reject and fail the whole download.
-        cardImage ? safeLoadImage(cardImage) : Promise.resolve(null),
-        bossComment ? safeLoadImage(BOSS_NOTE_SRC) : Promise.resolve(null),
-        Promise.all(photos.map((p) => safeLoadImage(p.image))),
-      ]);
+      const [frame, leftIcon, rightIcon, mainPhoto, bossNote, highlightPhotos] =
+        await Promise.all([
+          // These four are local static assets - a real failure here means
+          // something is fundamentally broken, so they're allowed to reject
+          // and fail the whole download instead of degrading silently.
+          loadImage(FRAME_SRC),
+          loadImage(LEFT_ICON_SRC),
+          loadImage(RIGHT_ICON_SRC),
+          cardImage ? safeLoadImage(cardImage) : Promise.resolve(null),
+          bossComment ? safeLoadImage(BOSS_NOTE_SRC) : Promise.resolve(null),
+          Promise.all(photos.map((p) => safeLoadImage(p.image))),
+        ]);
+
+      // Canvas text needs the font ready before the first fillText - a plain
+      // CSS @font-face import doesn't get picked up otherwise.
+      await document.fonts.load(`700 ${TITLE_HEIGHT}px ${TITLE_FONT}`);
 
       // ── layout math (top to bottom) ──
       const headerPolaroidWidth = 400;
@@ -183,6 +202,8 @@ export function ResultImageDownload({
 
       const canvasHeight =
         PADDING +
+        TITLE_HEIGHT +
+        SECTION_GAP +
         headerHeight +
         (photosHeight > 0 ? SECTION_GAP + photosHeight : 0) +
         (bossNoteHeight > 0 ? SECTION_GAP + bossNoteHeight : 0) +
@@ -197,12 +218,37 @@ export function ResultImageDownload({
       ctx.fillStyle = PAGE_BACKGROUND;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+      // ── title: pizza icon · PIZZALAB · pizza icon, same mark as Navbar.tsx ──
+      ctx.font = `700 32px ${TITLE_FONT}`;
+      const titleText = "PIZZALAB";
+      const titleTextWidth = ctx.measureText(titleText).width;
+      const iconHeight = 40;
+      const iconWidth = iconHeight / ICON_ASPECT;
+      const iconGap = 20;
+      const titleBlockWidth = iconWidth * 2 + iconGap * 2 + titleTextWidth;
+      const titleStartX = (CANVAS_WIDTH - titleBlockWidth) / 2;
+      const titleCenterY = PADDING + TITLE_HEIGHT / 2;
+
+      ctx.drawImage(leftIcon, titleStartX, titleCenterY - iconHeight / 2, iconWidth, iconHeight);
+      ctx.fillStyle = ACCENT;
+      ctx.textAlign = "left";
+      ctx.textBaseline = "middle";
+      ctx.fillText(titleText, titleStartX + iconWidth + iconGap, titleCenterY);
+      ctx.drawImage(
+        rightIcon,
+        titleStartX + iconWidth + iconGap + titleTextWidth + iconGap,
+        titleCenterY - iconHeight / 2,
+        iconWidth,
+        iconHeight,
+      );
+
       // ── header: main polaroid + persona/hashtags ──
-      drawPolaroid(ctx, frame, mainPhoto, "", PADDING, PADDING, headerPolaroidWidth);
+      const headerY = PADDING + TITLE_HEIGHT + SECTION_GAP;
+      drawPolaroid(ctx, frame, mainPhoto, "", PADDING, headerY, headerPolaroidWidth);
 
       const textX = PADDING + headerPolaroidWidth + 50;
       const textWidth = CANVAS_WIDTH - PADDING - textX;
-      let textY = PADDING + headerHeight * 0.32;
+      let textY = headerY + headerHeight * 0.32;
 
       ctx.fillStyle = ACCENT;
       ctx.textAlign = "left";
@@ -221,7 +267,7 @@ export function ResultImageDownload({
       }
 
       // ── highlight photos, in polaroid frames ──
-      let cursorY = PADDING + headerHeight;
+      let cursorY = headerY + headerHeight;
       if (miniRows > 0) {
         cursorY += SECTION_GAP;
         photos.forEach((photo, i) => {
