@@ -12,7 +12,7 @@ export function Card({ id, imageSrc, title, hashtags }: CardProps) {
   return (
     <Link className="group block text-white" href={`/s/${id}`}>
       <article>
-        <div className="relative aspect-square overflow-hidden bg-white/5">
+        <div className="relative aspect-3/4 overflow-hidden bg-white/5">
           {imageSrc ? (
             <Image
               src={imageSrc}
