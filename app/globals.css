@@ -8,11 +8,19 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "LoRes9OTWide";
+  src: url("/fonts/LoRes9OTWide-Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
 :root {
   --primary: #2b2b2b;
   --secondary: #ff4f4f;
   --foreground: #ffffff;
-  --font-title: "Cubic 11", sans-serif;
+  --font-title: "LoRes9OTWide", "Cubic 11", sans-serif;
 }
 
 @theme inline {

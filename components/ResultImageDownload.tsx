@@ -19,7 +19,7 @@ const BOSS_NOTE_ASPECT = 897 / 2174; // height / width
 const LEFT_ICON_SRC = "/images/left_icon.svg";
 const RIGHT_ICON_SRC = "/images/right_icon.svg";
 const ICON_ASPECT = 42 / 54; // height / width
-const TITLE_FONT = '"Cubic 11", sans-serif';
+const TITLE_FONT = '"LoRes9OTWide", "Cubic 11", sans-serif';
 
 const CANVAS_WIDTH = 1200;
 const PADDING = 60;
