@@ -28,7 +28,10 @@ export function getImageUrl(path: string | null): string | null {
 
 export async function getAllSessions(): Promise<SessionSummary[]> {
   if (useMockData) {
-    return mockSessions;
+    return [...mockSessions].sort(
+      (a, b) =>
+        new Date(b.playedAt).getTime() - new Date(a.playedAt).getTime(),
+    );
   }
 
   const response = await fetch(`${API_BASE_URL}/api/sessions`, {
@@ -40,12 +43,25 @@ export async function getAllSessions(): Promise<SessionSummary[]> {
   }
 
   const data: SessionsResponse = await response.json();
-  return data.sessions;
+  return [...data.sessions].sort(
+    (a, b) =>
+      new Date(b.playedAt).getTime() - new Date(a.playedAt).getTime(),
+  );
 }
 
 export async function getSession(id: string): Promise<SessionDetail | null> {
   if (useMockData) {
-    return mockSessionDetails.find((session) => session.id === id) ?? null;
+    const session =
+      mockSessionDetails.find((item) => item.id === id) ?? null;
+
+    return session
+      ? {
+          ...session,
+          photos: [...session.photos].sort(
+            (a, b) => a.gameTime - b.gameTime,
+          ),
+        }
+      : null;
   }
 
   const response = await fetch(
@@ -61,5 +77,10 @@ export async function getSession(id: string): Promise<SessionDetail | null> {
     throw new Error("無法取得場次內容");
   }
 
-  return response.json();
+  const session: SessionDetail = await response.json();
+
+  return {
+    ...session,
+    photos: [...session.photos].sort((a, b) => a.gameTime - b.gameTime),
+  };
 }
