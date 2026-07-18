@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { DownloadResultButton } from "@/components/DownloadResultButton";
 import FadeIn from "@/components/fadeIn";
 import { Polaroid } from "@/components/Polaroid";
 import { getImageUrl, getSession } from "@/lib/api/sessions";
@@ -139,14 +140,12 @@ export default async function SessionPage({ params }: SessionPageProps) {
           <h2 className="text-md text-white! md:text-2xl">
             下載你的總結圖片
           </h2>
-          <button
-            type="button"
-            disabled
-            title="等待下載 API 契約確認"
-            className="mt-4 inline-flex min-h-12 items-center justify-center rounded-sm border border-secondary bg-secondary px-8 text-sm tracking-[0.16em] text-white opacity-60"
-          >
-            DOWNLOAD IMAGE
-          </button>
+          <DownloadResultButton
+            frameSrc="/images/UI_Polaroid.png"
+            photoSrc={cardImage}
+            hashtags={session.card.hashtags}
+            fileName={`pizzalab_${session.id}`}
+          />
         </FadeIn>
       </article>
     </main>
