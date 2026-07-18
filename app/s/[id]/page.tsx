@@ -120,12 +120,12 @@ export default async function SessionPage({ params }: SessionPageProps) {
         {session.bossComment ? (
           <FadeIn>
             <h2 className="mb-8 text-2xl md:text-3xl">老闆紙條</h2>
-            <div className="relative mx-auto aspect-video w-full overflow-hidden bg-primary">
+            <div className="relative mx-auto aspect-video w-full overflow-hidden bg-primary transition-all duration-600 hover:scale-105">
               <Image
                 src="/images/UI_bossreview.png"
                 alt="老闆紙條"
                 fill
-                className="object-contain transition-transform duration-600 hover:scale-105"
+                className="object-contain transition-all duration-600 hover:scale-105"
                 sizes="(min-width: 768px) 768px, 100vw"
               />
               <div className="absolute inset-0 flex items-center justify-center p-[12%] text-center">

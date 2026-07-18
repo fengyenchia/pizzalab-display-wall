@@ -47,3 +47,9 @@ h6 {
   color: var(--secondary);
   font-family: var(--font-title);
 }
+
+
+::selection {
+  background: var(--foreground);
+  color: var(--primary);
+}
