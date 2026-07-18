@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Cubic 11";
+  src: url("/fonts/Cubic_11_1.010_R.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+:root {
+  --primary: #2b2b2b;
+  --secondary: #ff4f4f;
+  --foreground: #ffffff;
+  --font-title: "Cubic 11", sans-serif;
+}
+
+@theme inline {
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-foreground: var(--foreground);
+  --font-title: var(--font-title);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--primary);
+  color: var(--foreground);
+  font-family: var(--font-title);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--secondary);
+  font-family: var(--font-title);
+}
