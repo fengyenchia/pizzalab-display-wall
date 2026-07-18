@@ -55,7 +55,7 @@ export default async function SessionPage({ params }: SessionPageProps) {
         </FadeIn>
 
         <FadeIn>
-          <header className="pt-12 text-center">
+          <header className="md:pt-12 text-center">
             <div className="mx-auto flex w-full flex-col items-center gap-4 md:flex-row md:gap-12">
               <div className="w-full max-w-100 transition-transform duration-600 hover:scale-[0.98]">
                 <Polaroid
@@ -66,7 +66,7 @@ export default async function SessionPage({ params }: SessionPageProps) {
                 />
               </div>
               <div className="flex flex-col text-start md:gap-12">
-                <h1 className="w-full text-center text-lg leading-tight md:text-start md:text-5xl">
+                <h1 className="w-full text-center text-lg bg-foreground p-4 rounded-sm leading-tight md:text-start md:text-5xl">
                   {session.card.persona}
                 </h1>
                 <ul className="flex gap-4 text-start md:flex-col">
@@ -85,7 +85,7 @@ export default async function SessionPage({ params }: SessionPageProps) {
         </FadeIn>
 
         <section>
-          <h2 className="mb-8 text-2xl md:text-3xl">場景客人照片</h2>
+          <h2 className="mb-8 text-2xl md:text-3xl">場景與客人照片</h2>
           {session.photos.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-3">
               {session.photos.map((photo, index) => {
@@ -97,7 +97,7 @@ export default async function SessionPage({ params }: SessionPageProps) {
                       {photoUrl ? (
                         <Image
                           src={photoUrl}
-                          alt={photo.caption || `場景客人照片 ${index + 1}`}
+                          alt={photo.caption || `場景與客人照片 ${index + 1}`}
                           fill
                           className="object-cover transition-transform duration-600 hover:scale-105"
                           sizes="(min-width: 768px) 50vw, 100vw"
@@ -117,7 +117,7 @@ export default async function SessionPage({ params }: SessionPageProps) {
 
         {session.bossComment ? (
           <FadeIn>
-            <h2 className="mb-8 text-2xl md:text-3xl">老闆紙條</h2>
+            <h2 className="text-2xl md:text-3xl">老闆紙條</h2>
             <div className="relative mx-auto aspect-video w-full overflow-hidden bg-primary transition-all duration-600 hover:scale-105">
               <Image
                 src="/images/UI_bossreview.png"
@@ -127,7 +127,7 @@ export default async function SessionPage({ params }: SessionPageProps) {
                 sizes="(min-width: 768px) 768px, 100vw"
               />
               <div className="absolute inset-0 flex items-center justify-center p-[12%] text-center">
-                <p className="max-w-3xl text-xs leading-4 text-primary md:text-2xl md:leading-10 mt-6 md:mt-8">
+                <p className="max-w-3xl text-[8px] leading-4 text-primary md:text-xl md:leading-10 mt-6 md:mt-8">
                   {session.bossComment}
                 </p>
               </div>

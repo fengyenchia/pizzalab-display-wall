@@ -323,7 +323,7 @@ export function ResultImageDownload({
       <p className="mb-2 text-[8px] tracking-[0.24em] text-white/45 md:mb-4 md:text-xs">
         KEEP YOUR RESULT
       </p>
-      <h2 className="text-md text-white! md:text-2xl">下載你的總結圖片</h2>
+      <h2 className="text-md text-white! md:text-2xl">下載成果圖片</h2>
       <button
         type="button"
         onClick={handleDownload}
