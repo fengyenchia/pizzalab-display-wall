@@ -36,10 +36,23 @@ export function Polaroid({
       className="relative w-full select-none"
       style={{ aspectRatio: FRAME_RATIO }}
     >
-      {/* LLM clay photo, dropped into the dark slot (drawn under the frame edges
-          via inset positioning; the frame sits above to keep its worn border). */}
+      {/* The frame's photo slot is baked into the PNG as opaque near-black
+          pixels, not a transparent hole - so the frame has to sit UNDER the
+          photo (z-0) or its own black square would paint over the photo. */}
+      <Image
+        src={FRAME_SRC}
+        alt=""
+        aria-hidden
+        fill
+        className="pointer-events-none absolute inset-0 z-0 object-contain"
+        sizes={sizes}
+        priority={priority}
+      />
+
+      {/* LLM clay photo, layered above the frame so it actually shows through
+          the (opaque) slot instead of being hidden behind it. */}
       <div
-        className="absolute overflow-hidden bg-black"
+        className="absolute z-10 overflow-hidden bg-black"
         style={{ top: SLOT.top, left: SLOT.left, right: SLOT.right, bottom: SLOT.bottom }}
       >
         {imageSrc ? (
@@ -58,21 +71,10 @@ export function Polaroid({
         )}
       </div>
 
-      {/* The frame itself, above the photo so its edges frame the slot cleanly. */}
-      <Image
-        src={FRAME_SRC}
-        alt=""
-        aria-hidden
-        fill
-        className="pointer-events-none object-contain"
-        sizes={sizes}
-        priority={priority}
-      />
-
       {/* Hashtags on the white caption strip below the slot. */}
       {hashtags.length > 0 ? (
         <div
-          className="absolute flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center"
+          className="absolute z-20 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center"
           style={{ top: "72%", left: "9%", right: "9%", bottom: "6%" }}
         >
           {hashtags.map((tag) => (
