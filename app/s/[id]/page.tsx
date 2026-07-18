@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import FadeIn from "@/components/fadeIn";
+import { Polaroid } from "@/components/Polaroid";
+import { ResultImageDownload } from "@/components/ResultImageDownload";
 import { getImageUrl, getSession } from "@/lib/api/sessions";
 import { mockSessionDetails } from "@/lib/mock/sessions";
 
@@ -50,23 +52,19 @@ export default async function SessionPage({ params }: SessionPageProps) {
           >
             BACK TO ALL WORKS
           </Link>
+        </FadeIn>
 
+        <FadeIn>
           <header className="pt-12 text-center">
             <div className="mx-auto flex w-full flex-col items-center gap-4 md:flex-row md:gap-12">
-              {cardImage ? (
-                <Image
-                  src={cardImage}
+              <div className="w-full max-w-100 transition-transform duration-600 hover:scale-[0.98]">
+                <Polaroid
+                  imageSrc={cardImage}
                   alt={session.card.persona}
-                  width={400}
-                  height={400}
-                  className="object-cover object-center transition-transform duration-600 hover:scale-[0.98]"
-                  sizes="(min-width: 768px) 33vw, 100vw"
+                  hashtags={session.card.hashtags}
+                  priority
                 />
-              ) : (
-                <div className="flex aspect-square w-full max-w-100 items-center justify-center border border-white/20 text-xs text-white/40">
-                  IMAGE UNAVAILABLE
-                </div>
-              )}
+              </div>
               <div className="flex flex-col text-start md:gap-12">
                 <h1 className="w-full text-center text-lg leading-tight md:text-start md:text-5xl">
                   {session.card.persona}
@@ -137,22 +135,17 @@ export default async function SessionPage({ params }: SessionPageProps) {
           </FadeIn>
         ) : null}
 
-        <FadeIn className="border-t border-white/40 pt-8 text-center">
-          <p className="mb-2 text-[8px] tracking-[0.24em] text-white/45 md:mb-4 md:text-xs">
-            KEEP YOUR RESULT
-          </p>
-          <h2 className="text-md text-white! md:text-2xl">
-            下載你的總結圖片
-          </h2>
-          <button
-            type="button"
-            disabled
-            title="等待下載 API 契約確認"
-            className="mt-4 inline-flex min-h-12 items-center justify-center rounded-sm border border-secondary bg-secondary px-8 text-sm tracking-[0.16em] text-white opacity-60"
-          >
-            DOWNLOAD IMAGE
-          </button>
-        </FadeIn>
+        <ResultImageDownload
+          cardImage={cardImage}
+          persona={session.card.persona}
+          hashtags={session.card.hashtags}
+          photos={session.photos.map((p) => ({
+            image: getImageUrl(p.image) ?? "",
+            caption: p.caption,
+          }))}
+          bossComment={session.bossComment}
+          fileName={`pizzalab_${session.id}`}
+        />
       </article>
     </main>
   );
